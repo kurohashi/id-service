@@ -66,5 +66,5 @@ function init(){
 		console.log("uncaughtException ",err);
 	});
 
-	utils.sendMailToServer("shubhamsri94@gmail.com", "blank", "blank").then(resp => console.log(resp)).catch(err => console.error(err));
+	// utils.sendMailToServer("shubhamsri94@gmail.com", "blank", "blank").then(resp => console.log(resp)).catch(err => console.error(err));
 }

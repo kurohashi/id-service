@@ -11,7 +11,7 @@ let console = conf.console;
 
 module.exports = {
 	createId, authFailed, preupdate, ISODate, regex, createHash,
-	sendMailToServer,
+	sendMailToServer, signToken, extractToken, verifyToken,
 }
 
 function regex(val, type) {
@@ -68,11 +68,12 @@ function createId(type, len) {
 /**
  * Create hash from given fields in an array
  * @param {*} key : key string to be created hash for
+ * @param {*} salt? : (optional) salt to be used for encryption
  * @param {*} type? : (optional) type of hash
  */
-function createHash(key, type) {
+function createHash(key, salt, type) {
 	type = type || "gen";
-	return Buffer.from(crypto.pbkdf2Sync(key, conf.crypto[type].salt, conf.crypto[type].iterations, conf.crypto[type].keyLen, "SHA256"), 'binary').toString('base64');
+	return Buffer.from(crypto.pbkdf2Sync(key, salt || conf.crypto[type].salt, conf.crypto[type].iterations, conf.crypto[type].keyLen, "SHA256"), 'binary').toString('base64');
 }
 
 
@@ -91,4 +92,36 @@ async function sendMailToServer(to, subject, text) {
 		text: text,
 		html: text,
 	});
+}
+
+/**
+ * Create user jwt token
+ * @param {*} obj 
+ * @returns 
+ */
+function signToken(obj) {
+	if (!isObject(obj))
+		return null;
+	return jwt.sign(obj, conf.crypto.jwtSecKey, {
+		expiresIn: conf.limits.keyExpiry
+	});
+}
+
+/**
+ * Extract data from token
+ * @param {*} token 
+ */
+function extractToken(token) {
+	if (token.includes("Bearer"))
+		token = token.replace("Bearer", "");
+	token = token.trim();
+	return jwt.decode(token);
+}
+
+/**
+ * Verify the token
+ * @param {*} token 
+ */
+function verifyToken(token) {
+	return jwt.verify(token, conf.crypto.jwtSecKey);
 }

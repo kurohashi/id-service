@@ -14,6 +14,9 @@ class Database {
     await users.createIndexes([{
       key: { email: 1 },
       unique: true,
+    }, {
+      key: { uid: 1 },
+      unique: true,
     }]);
     conf.collections = { users: users };
   }
