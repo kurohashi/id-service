@@ -26,14 +26,15 @@ module.exports = new (function () {
         replyto: "smjackson94@gmail.com"
     }
 	this.mailer = {
-        sendgrid: {
-            host: "smtp.sendgrid.net",
-            port: 465,
-            secure: true, // true for 465, false for other ports
-            auth: {
-                user: 'apikey', // generated ethereal user
-                pass: 'SG.FblIkfY0Q1KN-1ZMFNfItg.1uMbjtIkEB-O0bf7IO9kB_WdrdJpYVpuEEbqdVYSdP0', // generated ethereal password
-            },
-        }
+		sendinblue: {
+			host: "smtp-relay.sendinblue.com",
+			port: 587,
+			auth: {
+				user: "api-key",
+				pass: "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"
+				// user: "Node",
+				// pass: "xsmtpsib-50880ec26e66c4f4f44c0498b23ff637d3a949e33a8b7ba81877387e07eca384-P8aKUT3LzI7cvt5p",
+			}
+		}
     };
 })();

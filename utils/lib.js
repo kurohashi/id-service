@@ -6,7 +6,7 @@ var moment = require("moment-timezone");
 var jwt = require('jsonwebtoken');
 var nodemailer = require("nodemailer");
 
-let transporter = nodemailer.createTransport(conf.mailer.sendgrid);
+let transporter = nodemailer.createTransport(conf.mailer.sendinblue);
 let console = conf.console;
 
 module.exports = {
